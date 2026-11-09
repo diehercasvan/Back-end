@@ -110,7 +110,7 @@ async function run() {
     }
 
     console.log('▶️  Poblando user_role_id desde user_role (user_id, role_id)...');
-    const [updatedRows] = await sequelize.query(
+    const [updateResult] = await sequelize.query(
       `UPDATE module_role_user mru
          JOIN user_role ur
            ON ur.user_id = mru.user_id AND ur.role_id = mru.role_id
@@ -118,7 +118,7 @@ async function run() {
        WHERE mru.user_role_id IS NULL`,
       { transaction: t }
     );
-    console.log(`   Filas actualizadas: ${updatedRows}`);
+    console.log(`   Filas actualizadas: ${updateResult}`);
 
     // Verificar que no quede ninguna sin mapear
     const [nullRows] = await sequelize.query(
@@ -235,7 +235,7 @@ Abre `package.json` y **reemplaza la sección `"scripts"`** por:
 
 ## ✅ Verificación del Paso 1.4
 
-Sigue el orden. 
+Sigue el orden.
 
 ### Paso A — Respaldo (obligatorio)
 
@@ -253,6 +253,7 @@ Verifica que `backup_pqrs_system.sql` exista y pese > 0 KB.
 ```powershell
 npm run add:is-internal
 ```
+
 
 **Salida esperada:**
 
@@ -317,6 +318,16 @@ mysql -u root pqrs_system -e "SELECT DISTINCT user_role_id FROM module_role_user
 
 ```powershell
 npm run dev
+
+[nodemon] 3.1.14
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node src/server.js`
+✅ Conexión MySQL establecida
+🚀 Servidor en http://localhost:3000
+🔗 Health:  http://localhost:3000/api/v1/health
+🌎 Entorno: development
 ```
 
 Y en otra terminal:
@@ -329,16 +340,6 @@ Debe seguir devolviendo `"database": "conectada"`. (Los cambios de 1.4 aún no a
 
 ---
 
-## 🚦 Antes de avanzar al 1.5
+## 🚦 Antes de avanzar al punto 1.5 validar que el punto 1.4 este correcto
 
-Cuando termines, pégame:
-
-1. **Salida de B** (`add:is-internal`)
-2. **Salida de C** (`DESCRIBE pqrs_response` filtrado a `is_internal`)
-3. **Salida de D** (`migrate:mru`, primera ejecución y segunda ejecución)
-4. **Salida de E** (`DESCRIBE module_role_user` + `COUNT` + `DISTINCT user_role_id`)
-5. **Estado de `/health`** tras los cambios (`"conectada"`)
-
-Con esas 5 salidas verdes, paso a **1.5 — Modelos Sequelize**, que es donde reflejamos estas dos estructuras nuevas (`PqrsResponse.is_internal`, `ModuleRoleUser.user_role_id`) en código y verificamos que leen las tablas reales.
-
-**No pasamos a 1.5 hasta que 1.4 esté 100% verificado.**
+## 🔜 Siguiente: Paso 1.5 — Modelos Sequelize

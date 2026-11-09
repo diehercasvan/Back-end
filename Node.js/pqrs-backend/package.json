@@ -5,9 +5,18 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "add:is-internal": "node scripts/add-is-internal.js",
+    "migrate:mru": "node scripts/migrate-module-role-user.js",
+    "fix:seed": "node scripts/fix-seed.js"
   },
-  "keywords": ["pqrs", "express", "sequelize", "mysql", "jwt"],
+  "keywords": [
+    "pqrs",
+    "express",
+    "sequelize",
+    "mysql",
+    "jwt"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
