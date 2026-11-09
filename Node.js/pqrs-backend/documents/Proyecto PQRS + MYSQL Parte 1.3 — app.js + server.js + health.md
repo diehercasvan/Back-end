@@ -244,18 +244,6 @@ try { Invoke-RestMethod http://localhost:3000/no-existe } catch { $_.ErrorDetail
 
 ---
 
-### Verificación C — Cierre limpio
-
-En la terminal del servidor, presiona `Ctrl+C`. Debe imprimir:
-
-```
-⚠️  SIGINT recibido, cerrando...
-✅ Servidor y BD cerrados
-```
-
-Y volver al prompt sin colgarse.
-
----
 
 ## 🚦 No avanzamos hasta que:
 
@@ -267,12 +255,3 @@ Y volver al prompt sin colgarse.
 ---
 
 ## 🔜 Siguiente: Paso 1.4 — Ajustes de BD
-
-Cuando 1.3 esté verde, te entrego **1.4**:
-
-- `scripts/add-is-internal.js` (agrega columna `is_internal` a `pqrs_response`, idempotente)
-- `scripts/migrate-module-role-user.js` (migra `module_role_user` a `user_role_id` en transacción con rollback)
-- Actualización de `package.json` con los scripts `add:is-internal` y `migrate:mru`
-- Instrucciones de verificación con `DESCRIBE pqrs_response` y `DESCRIBE module_role_user`
-
-**Pega las salidas de A, B y C (o un "✅ 1.3 OK") y sigo con 1.4.**
