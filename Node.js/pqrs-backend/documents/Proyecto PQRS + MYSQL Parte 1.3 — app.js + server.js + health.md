@@ -1,6 +1,6 @@
 # ✅ Paso 1.2 validado — Avanzamos al Paso 1.3
 
-Excelente. Las 3 verificaciones en verde. Ahora creamos el **servidor mínimo funcional**: `app.js` + `server.js` con un endpoint `/health` que confirma que Express y MySQL están operativos. **Sin auth, sin modelos, sin migraciones aún.**
+Ahora creamos el **servidor mínimo funcional**: `app.js` + `server.js` con un endpoint `/health` que confirma que Express y MySQL están operativos. **Sin auth, sin modelos, sin migraciones aún.**
 
 ---
 
@@ -85,6 +85,7 @@ module.exports = app;
 ```
 
 **Qué hace cada pieza:**
+
 - `helmet()` → cabeceras de seguridad HTTP (protección básica).
 - `cors()` → permite peticiones desde el frontend React en otro puerto.
 - `morgan` → log de cada request en consola (`dev` en desarrollo, `combined` en producción).
@@ -141,6 +142,7 @@ start();
 ```
 
 **Qué hace:**
+
 1. Valida env (ya lo hace `config/env.js` al importarse) y prueba conexión a MySQL **antes** de aceptar peticiones.
 2. Levanta el servidor solo si la BD responde.
 3. Captura `Ctrl+C` (`SIGINT`) y `SIGTERM` para cerrar conexiones ordenadamente.
@@ -267,6 +269,7 @@ Y volver al prompt sin colgarse.
 ## 🔜 Siguiente: Paso 1.4 — Ajustes de BD
 
 Cuando 1.3 esté verde, te entrego **1.4**:
+
 - `scripts/add-is-internal.js` (agrega columna `is_internal` a `pqrs_response`, idempotente)
 - `scripts/migrate-module-role-user.js` (migra `module_role_user` a `user_role_id` en transacción con rollback)
 - Actualización de `package.json` con los scripts `add:is-internal` y `migrate:mru`
