@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Informes - Marketing</title>
+    <!-- Chart.js para gráficas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <h1>📊 Sistema de Informes de Marketing</h1>
+                <p class="subtitle">Gestión y análisis de campañas de email</p>
+            </div>
+            <div class="header-right">
+                <span class="update-badge">🔄 Actualizado: <span id="fechaActualizacion">--</span></span>
+            </div>
+        </header>
+
+        <!-- SELECTOR DE CAMPAÑA -->
+        <section class="module-selector">
+            <div class="selector-box">
+                <div class="selector-row">
+                    <label for="campaignSelect">📋 Seleccionar Campaña:</label>
+                    <select id="campaignSelect">
+                        <option value="">Cargando campañas...</option>
+                    </select>
+                    <button id="btnGenerarInforme" class="btn-primary">🚀 Generar Informe</button>
+                    <button id="btnExportarPDF" class="btn-secondary">📄 Exportar PDF</button>
+                </div>
+                <div class="campaign-detail" id="campaignDetail">
+                    <span id="campaignNameDisplay">📧 Sin campaña seleccionada</span>
+                    <span id="campaignDateDisplay"></span>
+                    <span id="campaignTimeDisplay"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- MÉTRICAS CLAVE (KPI) -->
+        <section class="module-kpi" id="moduleKPI" style="display: none;">
+            <h2 class="module-title">📈 Métricas Clave</h2>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon">📨</div>
+                    <div class="kpi-content">
+                        <h3>Total Enviados</h3>
+                        <p id="totalEnviados">0</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">✅</div>
+                    <div class="kpi-content">
+                        <h3>Entregados</h3>
+                        <p id="totalEntregados">0</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">❌</div>
+                    <div class="kpi-content">
+                        <h3>Rebotes</h3>
+                        <p id="totalRebotados">0</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">👁️</div>
+                    <div class="kpi-content">
+                        <h3>Abiertos</h3>
+                        <p id="totalAbiertos">0</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">🖱️</div>
+                    <div class="kpi-content">
+                        <h3>Clics</h3>
+                        <p id="totalClics">0</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">⛔</div>
+                    <div class="kpi-content">
+                        <h3>Cancelaciones</h3>
+                        <p id="totalCancelados">0</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASAS DE CONVERSIÓN -->
+        <section class="module-rates" id="moduleRates" style="display: none;">
+            <h2 class="module-title">📊 Tasas de Conversión</h2>
+            <div class="rates-grid">
+                <div class="rate-card">
+                    <h4>Tasa de Entrega</h4>
+                    <p id="tasaEntrega">0%</p>
+                    <div class="progress-bar"><div class="progress-fill" id="progressEntrega" style="width:0%"></div></div>
+                </div>
+                <div class="rate-card">
+                    <h4>Tasa de Rebote</h4>
+                    <p id="tasaRebote">0%</p>
+                    <div class="progress-bar"><div class="progress-fill" id="progressRebote" style="width:0%"></div></div>
+                </div>
+                <div class="rate-card">
+                    <h4>Tasa de Apertura</h4>
+                    <p id="tasaApertura">0%</p>
+                    <div class="progress-bar"><div class="progress-fill" id="progressApertura" style="width:0%"></div></div>
+                </div>
+                <div class="rate-card">
+                    <h4>Tasa de Clics</h4>
+                    <p id="tasaClics">0%</p>
+                    <div class="progress-bar"><div class="progress-fill" id="progressClics" style="width:0%"></div></div>
+                </div>
+                <div class="rate-card">
+                    <h4>Tasa de Cancelación</h4>
+                    <p id="tasaCancelacion">0%</p>
+                    <div class="progress-bar"><div class="progress-fill" id="progressCancelacion" style="width:0%"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GRÁFICAS -->
+        <section class="module-charts" id="moduleCharts" style="display: none;">
+            <h2 class="module-title">📉 Análisis Gráfico</h2>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Embudo de Conversión</h3>
+                    <canvas id="funnelChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Distribución de Estados</h3>
+                    <canvas id="statusChart"></canvas>
+                </div>
+                <div class="chart-container full-width">
+                    <h3>Rendimiento por Hora de Envío</h3>
+                    <canvas id="hourlyChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANÁLISIS DE REBOTES -->
+        <section class="module-bounces" id="moduleBounces" style="display: none;">
+            <h2 class="module-title">❌ Análisis de Rebotes</h2>
+            <div id="bounceAnalysis"></div>
+        </section>
+
+        <!-- TABLA DETALLADA -->
+        <section class="module-table" id="moduleTable" style="display: none;">
+            <h2 class="module-title">📋 Detalle de Contactos</h2>
+            <div class="table-controls">
+                <div class="filter-group">
+                    <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre o email...">
+                    <select id="statusFilter">
+                        <option value="all">Todos los estados</option>
+                        <option value="delivered">✅ Entregados</option>
+                        <option value="bounced">❌ Rebotes</option>
+                        <option value="opened">👁️ Abiertos</option>
+                        <option value="clicked">🖱️ Clics</option>
+                        <option value="unsubscribed">⛔ Cancelados</option>
+                        <option value="sent">📨 Enviados</option>
+                    </select>
+                </div>
+                <span class="result-count" id="resultCount">0 contactos</span>
+            </div>
+            <div id="tableContainer"></div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

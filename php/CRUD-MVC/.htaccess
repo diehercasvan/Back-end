@@ -1,0 +1,24 @@
+# Activar el motor de reescritura
+RewriteEngine On
+
+# Si el archivo o directorio existe, no redirigir
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirigir todo a index.php
+RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
+
+# Proteger archivos sensibles
+<FilesMatch "\.(sql|log|htaccess|htpasswd|ini)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Prevenir listado de directorios
+Options -Indexes
+
+# Permitir acceso a archivos estáticos
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|svg)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

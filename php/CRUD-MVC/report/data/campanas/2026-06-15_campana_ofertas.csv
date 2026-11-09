@@ -1,0 +1,11 @@
+Email,Sent At,Status,Bounce Reason,Unsubscribed At,Opened At,Clicked At
+juan.perez@email.com,2026-06-15 09:00:00,delivered,-,-,2026-06-15 10:30:00,2026-06-15 11:15:00
+maria.garcia@email.com,2026-06-15 09:00:00,bounced,Spam filter,-,-,-
+carlos.lopez@email.com,2026-06-15 09:00:00,unsubscribed,-,2026-06-15 09:30:00,-,-
+ana.martinez@email.com,2026-06-15 09:00:00,delivered,-,-,2026-06-15 09:45:00,-
+pedro.sanchez@email.com,2026-06-15 09:00:00,delivered,-,-,2026-06-15 10:00:00,2026-06-15 10:20:00
+laura.gomez@email.com,2026-06-15 09:00:00,bounced,Mailbox full,-,-,-
+diego.fernandez@email.com,2026-06-15 09:00:00,delivered,-,-,-,-
+sofia.ruiz@email.com,2026-06-15 09:00:00,delivered,-,-,2026-06-15 09:15:00,2026-06-15 09:30:00
+javier.moreno@email.com,2026-06-15 09:00:00,sent,-,-,-,-
+carmen.jimenez@email.com,2026-06-15 09:00:00,delivered,-,-,2026-06-15 10:15:00,2026-06-15 10:45:00

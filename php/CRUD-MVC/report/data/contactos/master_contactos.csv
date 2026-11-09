@@ -1,0 +1,11 @@
+Email,Name,Surname,Phone,Subscribed At,Subscription Status
+juan.perez@email.com,Juan,Pérez,+123456789,2024-01-15,active
+maria.garcia@email.com,María,García,+123456790,2024-01-10,active
+carlos.lopez@email.com,Carlos,López,+123456791,2024-01-01,unsubscribed
+ana.martinez@email.com,Ana,Martínez,+123456792,2023-12-20,active
+pedro.sanchez@email.com,Pedro,Sánchez,+123456793,2024-01-05,active
+laura.gomez@email.com,Laura,Gómez,+123456794,2024-01-12,active
+diego.fernandez@email.com,Diego,Fernández,+123456795,2024-01-18,active
+sofia.ruiz@email.com,Sofía,Ruiz,+123456796,2024-01-22,active
+javier.moreno@email.com,Javier,Moreno,+123456797,2024-01-08,unsubscribed
+carmen.jimenez@email.com,Carmen,Jiménez,+123456798,2024-01-14,active

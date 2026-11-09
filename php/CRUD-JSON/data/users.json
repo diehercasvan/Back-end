@@ -1,0 +1,18 @@
+[
+  {
+    "user_id": 1,
+    "user_user": "admin",
+    "user_email": "admin@correo.com",
+    "user_password": "admin123",
+    "user_status": "active",
+    "role": "admin"
+  },
+  {
+    "user_id": 2,
+    "user_user": "user",
+    "user_email": "user@correo.com",
+    "user_password": "user123",
+    "user_status": "active",
+    "role": "user"
+  }
+]
