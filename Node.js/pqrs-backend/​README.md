@@ -24,10 +24,10 @@ API REST del sistema PQRS — Node.js + Express + Sequelize + MySQL.
 ## Estado
 
 - [X] 1.1 Estructura y archivos base
-- [ ] 1.2 Config (env + database)
-- [ ] 1.3 app.js + server.js (health check)
-- [ ] 1.4 Ajustes BD (is_internal + user_role_id)
-- [ ] 1.5 Modelos Sequelize
+- [X] 1.2 Config (env + database)
+- [X] 1.3 app.js + server.js (health check)
+- [X] 1.4 Ajustes BD (is_internal + user_role_id)
+- [X] 1.5 Modelos Sequelize
 - [ ] 1.6 Utils + middlewares base
 - [ ] 1.7 Auth (login, me, select-role)
 - [ ] 1.8 Swagger + Postman + fix-seed

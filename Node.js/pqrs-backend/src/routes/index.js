@@ -1,6 +1,7 @@
 // src/routes/index.js
 const { Router } = require('express');
 const authRoutes = require('./auth.routes');
+const catalogRoutes = require('./catalog.routes');
 
 const router = Router();
 
@@ -11,5 +12,6 @@ router.get('/health', (req, res) => {
 
 // Módulos
 router.use('/auth', authRoutes);
+router.use('/catalogs', catalogRoutes); 
 
 module.exports = router;

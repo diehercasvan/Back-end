@@ -1,8 +1,8 @@
+
 # 🎉 PASO 1 — CERRADO OFICIALMENTE
 
 Todas las verificaciones en verde:
 
-<<<<<<< Updated upstream
 | Verif                                                 | Resultado                                                                                                                                                                                                                                                   |
 | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **A** — `fix:seed`                           | ✅ admin y juan actualizados con `admin123`                                                                                                                                                                                                               |
@@ -13,17 +13,6 @@ Todas las verificaciones en verde:
 
 **El Paso 1 está oficialmente cerrado.** Tienes una API funcional con:
 
-=======
-| Verif | Resultado |
-|---|---|
-| **A** — `fix:seed` | ✅ admin y juan actualizados con `admin123` |
-| **C** — `/api-docs.json` (con `-Depth 10`) | ✅ Swagger completo: `openapi:3.0.3`, los 5 paths (`/auth/login`, `/auth/me`, `/auth/select-role`, `/auth/roles`, `/auth/health`), schemas (`LoginResponse`, `UserBasic`, `RoleBasic`, `ErrorResponse`), `securitySchemes.bearerAuth` |
-| **D** — Login admin | ✅ (ya validado antes) |
-| **E** — Postman | (implícito, importaste la colección) |
-| **F** — Estructura | ✅ completa (con carpetas extras `db/` y `documents/` que agregaste tú — no afectan) |
-
-**El Paso 1 está oficialmente cerrado.** Tienes una API funcional con:
->>>>>>> Stashed changes
 - ✅ Auth completo (JWT + rol activo)
 - ✅ Modelos Sequelize mapeados a tu BD migrada
 - ✅ Swagger en `/api-docs`
@@ -41,7 +30,6 @@ Ahora vamos al corazón del sistema de permisos. **Este paso es el más crítico
 
 ## 📋 Plan del Paso 2 — Módulo Seguridad
 
-<<<<<<< Updated upstream
 | Sub-paso      | Contenido                                                                                | Endpoints                                                                                      |
 | ------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | **2.1** | Middleware `permission` + catálogos lectura (status, doc types, permissions, modules) | `GET /permissions`, `GET /modules`, `GET /user-status`, `GET /document-types`          |
@@ -51,20 +39,9 @@ Ahora vamos al corazón del sistema de permisos. **Este paso es el más crítico
 | **2.5** | CRUD **Modules** (solo admin)                                                      | `GET/POST/PUT/DELETE /modules`                                                               |
 | **2.6** | Ampliación Postman + Swagger + verificación 403 con juan                               | —                                                                                             |
 
-> **Diferencia con el Paso 1:** aquí **cada endpoint** queda protegido con `authRequired` + `permissionRequired(module, permission)`. Ejemplo:
+> **Diferencia con el Paso 1:** aquí **cada endpoint** queda protegido con `authRequired` + `permissionRequired(module, permission)`. 
+> Ejemplo:
 >
-=======
-| Sub-paso | Contenido | Endpoints |
-|---|---|---|
-| **2.1** | Middleware `permission` + catálogos lectura (status, doc types, permissions, modules) | `GET /permissions`, `GET /modules`, `GET /user-status`, `GET /document-types` |
-| **2.2** | CRUD **Roles** + asignar módulos/permisos a rol (`module_role_user`) | `GET/POST/PUT/DELETE /roles`, `GET/POST/DELETE /roles/:id/modules` |
-| **2.3** | CRUD **Users** (solo admin) + asignación de roles | `GET/POST/PUT/DELETE /users`, `POST /users/:id/roles`, `DELETE /users/:id/roles/:roleId` |
-| **2.4** | CRUD **Profiles** (1:1 con user) | `GET/PUT /users/:id/profile`, `GET /profiles` |
-| **2.5** | CRUD **Modules** (solo admin) | `GET/POST/PUT/DELETE /modules` |
-| **2.6** | Ampliación Postman + Swagger + verificación 403 con juan | — |
-
-> **Diferencia con el Paso 1:** aquí **cada endpoint** queda protegido con `authRequired` + `permissionRequired(module, permission)`. Ejemplo:
->>>>>>> Stashed changes
 > - `POST /users` requiere `module='Usuarios'` + `permission='create'`.
 > - `GET /users` requiere `module='Usuarios'` + `permission='view'`.
 > - `DELETE /users/:id` requiere `module='Usuarios'` + `permission='delete'`.
@@ -78,10 +55,7 @@ En `module_role_user`, **los 21 registros son de `user_role_id=1`** (admin). `ju
 **Consecuencia:** cuando `juan` haga `POST /users`, debe recibir **403 Forbidden**. Eso será la prueba de que el middleware funciona.
 
 **Decisión que necesito de ti:** ¿sembramos algunos permisos básicos para el rol `user`? Por ejemplo:
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 - Módulo `PQRS` + permiso `view` (para que juan pueda ver sus PQRS).
 - Módulo `PQRS` + permiso `create` (para que juan pueda radicar).
 - Módulo `Dashboard` + permiso `view`.
@@ -163,10 +137,7 @@ module.exports = { permissionRequired };
 ```
 
 **Cómo funciona:**
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 1. Toma `user_role_id` del JWT (que ya puso `authRequired`).
 2. Busca `Module` por nombre (`Usuarios`) y `Permission` por nombre (`create`).
 3. Busca en `module_role_user` si el `user_role_id` tiene ese par `(module_id, permission_id)`.
@@ -370,10 +341,7 @@ run();
 ```
 
 Agrega a `package.json`:
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 ```json
 "seed:user-perms": "node scripts/seed-role-user-perms.js"
 ```
@@ -442,17 +410,10 @@ Repite con `modules` (403), `user-status` (403 sobre "Usuarios"), `document-type
 - **No** → juan queda 403 en todo hasta que tú le asignes permisos desde el CRUD de Roles (2.2). Es más realista pero hace las pruebas menos ricas.
 
 **Pégame:**
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 1. Salida de **A** (arranque).
 2. Salida de **B** (admin, los 6 catálogos → 200).
 3. Salida de **C** (juan → 403 en al menos 2 catálogos).
 4. Tu decisión sobre sembrar permisos para juan.
 
-<<<<<<< Updated upstream
 Con eso cerramos **2.1** y arrancamos **2.2 — CRUD de Roles + asignación de módulos/permisos**, que es donde el middleware de permisos se pone a prueba de verdad.
-=======
-Con eso cerramos **2.1** y arrancamos **2.2 — CRUD de Roles + asignación de módulos/permisos**, que es donde el middleware de permisos se pone a prueba de verdad.
->>>>>>> Stashed changes
