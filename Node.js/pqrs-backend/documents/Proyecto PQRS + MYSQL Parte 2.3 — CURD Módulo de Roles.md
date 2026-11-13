@@ -1,4 +1,4 @@
-# 📦 CRUD Roles completo (2.2)
+# 📦 CRUD Roles completo (2.3)
 
 Con el reset del esquema verificado (asumo que R1–R12 pasaron), veremos el nuevo **CRUD de Roles** con la nueva tabla `role_module_permission`.
 
@@ -15,7 +15,7 @@ La disposició del **código** estará en un solo bloque. Al final, las verifica
 | `src/validators/role.validator.js`            | **CREAR**                              |
 | `src/services/role.service.js`                | **CREAR**                              |
 | `src/controllers/security/role.controller.js` | **CREAR**                              |
-| `src/controllers/security/index.js`           | **CREAR**                                   |
+| `src/controllers/security/index.js`           | **CREAR**                              |
 | `src/routes/role.routes.js`                   | **CREAR**                              |
 | `src/routes/index.js`                         | **MODIFICAR** (montar `/roles`)      |
 | `postman/PQRS.postman_collection.json`        | **REEMPLAZAR** (agregar carpeta Roles) |
@@ -373,7 +373,7 @@ module.exports = {
 
 ---
 
-## 4. `src/controllers/security/index.js` 
+## 4. `src/controllers/security/index.js`
 
 ```javascript
 // src/controllers/security/index.js
