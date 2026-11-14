@@ -438,7 +438,6 @@ npm run dev
 
 Deben salir los 4 mensajes (`✅ 🚀 🔗 🌎`). Sin errores.
 
-
 ```
 > pqrs-backend@1.0.0 dev
 > nodemon src/server.js
@@ -453,7 +452,6 @@ Deben salir los 4 mensajes (`✅ 🚀 🔗 🌎`). Sin errores.
 🔗 Health:  http://localhost:3000/api/v1/health
 🌎 Entorno: development
 ```
-
 
 ---
 
