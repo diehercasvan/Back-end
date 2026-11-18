@@ -766,7 +766,7 @@ También añade en `variable`:
 
 ---
 
-## 🧪 Verificación del sub-paso 2.3 (13 pruebas)
+## 🧪 Verificación del sub-paso 2.4 (13 pruebas)
 
 Asumo servidor corriendo y `$token` / `$h` ya cargados del login admin.
 
@@ -936,9 +936,7 @@ try {
 
 ---
 
-## 🚦 Criterios para cerrar 2.3
-
-Pégame las salidas de **U1–U16** (o **"Postman: U1–U16 OK"**). Con eso verde:
+## 🚦 Criterios para cerrar 2.4
 
 - **2.3 cerrado**
 - Pasamos a **2.4 — CRUD Profiles** (editar el perfil 1:1 del usuario, subir foto, datos personales).

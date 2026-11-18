@@ -1,12 +1,12 @@
 // src/routes/role.routes.js
 const { Router } = require('express');
-const { authRequired } = require('../middlewares/auth.middleware');
-const { permissionRequired } = require('../middlewares/permission.middleware');
-const { validate } = require('../middlewares/validate.middleware');
+const { authRequired } = require('../../middlewares/auth.middleware');
+const { permissionRequired } = require('../../middlewares/permission.middleware');
+const { validate } = require('../../middlewares/validate.middleware');
 const {
   createRoleSchema, updateRoleSchema, assignPermissionSchema,
-} = require('../validators/role.validator');
-const roleCtl = require('../controllers/security/role.controller');
+} = require('../../validators/role.validator');
+const roleCtl = require('../../controllers/security/role.controller');
 
 const router = Router();
 

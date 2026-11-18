@@ -1,8 +1,8 @@
 // src/routes/catalog.routes.js
 const { Router } = require('express');
-const { authRequired } = require('../middlewares/auth.middleware');
-const { permissionRequired } = require('../middlewares/permission.middleware');
-const catalog = require('../controllers/security/catalog.controller');
+const { authRequired } = require('../../middlewares/auth.middleware');
+const { permissionRequired } = require('../../middlewares/permission.middleware');
+const catalog = require('../../controllers/security/catalog.controller');
 
 const router = Router();
 
