@@ -1,12 +1,25 @@
 {
   "info": {
     "name": "PQRS API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Colección de pruebas para el backend PQRS."
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:3000/api/v1" },
-    { "key": "token", "value": "" }
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "roleId",
+      "value": "6"
+    },
+    {
+      "key": "rmpId",
+      "value": ""
+    }
   ],
   "item": [
     {
@@ -16,10 +29,15 @@
           "name": "Login admin",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+              "raw": "{\"username\":\"admin\",\"password\":\"admin123\"}"
             },
             "url": "{{baseUrl}}/auth/login"
           },
@@ -28,11 +46,8 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "const body = pm.response.json();",
-                  "if (body.data && body.data.token) {",
-                  "  pm.collectionVariables.set('token', body.data.token);",
-                  "  console.log('✅ token guardado en variable de colección');",
-                  "}"
+                  "const b = pm.response.json();",
+                  "if (b.data && b.data.token) pm.collectionVariables.set('token', b.data.token);"
                 ]
               }
             }
@@ -42,22 +57,15 @@
           "name": "Login juan",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"username\": \"juan\",\n  \"password\": \"admin123\"\n}"
-            },
-            "url": "{{baseUrl}}/auth/login"
-          }
-        },
-        {
-          "name": "Login inválido (validación zod)",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"username\": \"a\",\n  \"password\": \"123\"\n}"
+              "raw": "{\"username\":\"juan\",\"password\":\"admin123\"}"
             },
             "url": "{{baseUrl}}/auth/login"
           }
@@ -66,74 +74,717 @@
           "name": "Me",
           "request": {
             "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
             "url": "{{baseUrl}}/auth/me"
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "Roles",
+      "item": [
         {
-          "name": "Me sin token (401)",
+          "name": "Listar roles",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/auth/me"
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/roles"
           }
         },
         {
-          "name": "Roles",
+          "name": "Detalle rol",
           "request": {
             "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": "{{baseUrl}}/auth/roles"
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/roles/{{roleId}}"
           }
         },
         {
-          "name": "Select-role válido",
+          "name": "Crear rol",
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"user_role_id\": 1\n}"
+              "raw": "{\"name\":\"tester\",\"description\":\"Rol de prueba\",\"is_active\":1}"
             },
-            "url": "{{baseUrl}}/auth/select-role"
+            "url": "{{baseUrl}}/roles"
           },
           "event": [
             {
               "listen": "test",
               "script": {
                 "exec": [
-                  "const body = pm.response.json();",
-                  "if (body.data && body.data.token) {",
-                  "  pm.collectionVariables.set('token', body.data.token);",
-                  "  console.log('✅ token actualizado');",
-                  "}"
+                  "const b = pm.response.json();",
+                  "if (b.data && b.data.role && b.data.role.id) pm.collectionVariables.set('roleId', String(b.data.role.id));"
                 ]
               }
             }
           ]
         },
         {
-          "name": "Select-role inválido (400)",
+          "name": "Editar rol",
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"user_role_id\": 999\n}"
+              "raw": "{\"description\":\"Rol de prueba (editado)\"}"
             },
-            "url": "{{baseUrl}}/auth/select-role"
+            "url": "{{baseUrl}}/roles/{{roleId}}"
           }
         },
         {
-          "name": "Health",
+          "name": "Eliminar rol",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/roles/{{roleId}}"
+          }
+        },
+        {
+          "name": "Matriz de permisos del rol",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/health"
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/roles/{{roleId}}/permissions"
+          }
+        },
+        {
+          "name": "Asignar permiso (Dashboard/view)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"module_id\":1,\"permission_id\":1}"
+            },
+            "url": "{{baseUrl}}/roles/{{roleId}}/permissions"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b.data && b.data.rmp_id) pm.collectionVariables.set('rmpId', String(b.data.rmp_id));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Revocar permiso",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/roles/{{roleId}}/permissions/{{rmpId}}"
+          }
+        },
+        {
+          "name": "juan intenta listar roles (403)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/roles"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/users"
+          }
+        },
+        {
+          "name": "Listar con filtro q=juan",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/users?q=juan"
+          }
+        },
+        {
+          "name": "Detalle usuario 2",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/users/2"
+          }
+        },
+        {
+          "name": "Crear usuario (con perfil + rol)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"maria\",\n  \"email\": \"maria@pqrs.com\",\n  \"password\": \"maria123\",\n  \"role_id\": 2,\n  \"profile\": {\n    \"first_name\": \"María\",\n    \"last_name\": \"Gómez\",\n    \"document_type_id\": 1,\n    \"document_number\": \"87654321\",\n    \"phone\": \"3009876543\",\n    \"address\": \"Carrera 45 #12-34\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/users"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b.data && b.data.user && b.data.user.id) pm.collectionVariables.set('newUserId', String(b.data.user.id));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"maria.editada@pqrs.com\"}"
+            },
+            "url": "{{baseUrl}}/users/{{newUserId}}"
+          }
+        },
+        {
+          "name": "Cambiar estado a suspended",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status_id\":3}"
+            },
+            "url": "{{baseUrl}}/users/{{newUserId}}/status"
+          }
+        },
+        {
+          "name": "Cambiar estado a active",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status_id\":1}"
+            },
+            "url": "{{baseUrl}}/users/{{newUserId}}/status"
+          }
+        },
+        {
+          "name": "Cambiar password",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"new_password\":\"maria456\"}"
+            },
+            "url": "{{baseUrl}}/users/{{newUserId}}/password"
+          }
+        },
+        {
+          "name": "Listar roles del usuario",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/users/{{newUserId}}/roles"
+          }
+        },
+        {
+          "name": "Asignar rol manager (role_id=3)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"role_id\":3}"
+            },
+            "url": "{{baseUrl}}/users/{{newUserId}}/roles"
+          }
+        },
+        {
+          "name": "Revocar rol (desactivar)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/users/{{newUserId}}/roles/{{urId}}"
+          }
+        },
+        {
+          "name": "Eliminar usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/users/{{newUserId}}"
+          }
+        },
+        {
+          "name": "juan intenta listar usuarios (403)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/users"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profiles",
+      "item": [
+        {
+          "name": "Listar perfiles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/profiles"
+          }
+        },
+        {
+          "name": "Filtro q=juan",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/profiles?q=juan"
+          }
+        },
+        {
+          "name": "Detalle profile 1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/profiles/1"
+          }
+        },
+        {
+          "name": "Perfil del usuario 2",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/users/2/profile"
+          }
+        },
+        {
+          "name": "Mi perfil (admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/profiles/me"
+          }
+        },
+        {
+          "name": "Editar mi perfil (admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":\"3111111111\"}"
+            },
+            "url": "{{baseUrl}}/profiles/me"
+          }
+        },
+        {
+          "name": "Editar perfil del usuario 2 (admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"address\":\"Nueva dirección 123\"}"
+            },
+            "url": "{{baseUrl}}/users/2/profile"
+          }
+        },
+        {
+          "name": "juan no puede listar perfiles (403)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/profiles"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Modules",
+      "item": [
+        {
+          "name": "Listar módulos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/modules"
+          }
+        },
+        {
+          "name": "Listar solo activos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/modules?is_active=1"
+          }
+        },
+        {
+          "name": "Detalle módulo 5 (PQRS)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/modules/5"
+          }
+        },
+        {
+          "name": "Crear módulo Reportes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Reportes\",\n  \"route\": \"#/reports\",\n  \"icon\": \"bi-graph-up\",\n  \"description\": \"Reportes del sistema\"\n}"
+            },
+            "url": "{{baseUrl}}/modules"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b.data && b.data.module && b.data.module.id) pm.collectionVariables.set('moduleId', String(b.data.module.id));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear duplicado name → 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Reportes\",\"route\":\"#/reports2\"}"
+            },
+            "url": "{{baseUrl}}/modules"
+          }
+        },
+        {
+          "name": "Crear duplicado route → 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Reportes2\",\"route\":\"#/reports\"}"
+            },
+            "url": "{{baseUrl}}/modules"
+          }
+        },
+        {
+          "name": "Editar módulo Reportes",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"description\":\"Reportes v2\"}"
+            },
+            "url": "{{baseUrl}}/modules/{{moduleId}}"
+          }
+        },
+        {
+          "name": "Eliminar módulo Reportes",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/modules/{{moduleId}}"
+          }
+        },
+        {
+          "name": "Eliminar módulo PQRS (con permisos) → 409",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/modules/5"
+          }
+        },
+        {
+          "name": "juan intenta listar módulos → 403",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/modules"
           }
         }
       ]
