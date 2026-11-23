@@ -788,6 +788,210 @@
           }
         }
       ]
+    },
+    {
+      "name": "PQRS",
+      "item": [
+        {
+          "name": "Listar PQRS (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/pqrs?page=1&limit=10"
+          }
+        },
+        {
+          "name": "Listar PQRS (juan)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/pqrs"
+          }
+        },
+        {
+          "name": "Crear PQRS (juan)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pqrs_type_id\": 2,\n  \"subject\": \"Falla en el sistema de facturación\",\n  \"description\": \"Al intentar descargar la factura del mes de octubre, el sistema arroja un error 500.\"\n}"
+            },
+            "url": "{{baseUrl}}/pqrs"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b.data && b.data.pqrs && b.data.pqrs.id) pm.collectionVariables.set('pqrsId', String(b.data.pqrs.id));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Detalle PQRS",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/pqrs/{{pqrsId}}"
+          }
+        },
+        {
+          "name": "Cambiar estado a En Proceso",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"pqrs_status_id\": 2}"
+            },
+            "url": "{{baseUrl}}/pqrs/{{pqrsId}}/status"
+          }
+        },
+        {
+          "name": "Asignar PQRS a admin",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"assigned_to\": 1}"
+            },
+            "url": "{{baseUrl}}/pqrs/{{pqrsId}}/assign"
+          }
+        },
+        {
+          "name": "Eliminar PQRS",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/pqrs/{{pqrsId}}"
+          }
+        },
+        {
+          "name": "juan intenta eliminar PQRS ajeno (403)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/pqrs/1"
+          }
+        }
+      ]
+    },{
+  "name": "Responses",
+  "item": [
+    {
+      "name": "Listar respuestas (juan - ciudadano)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/pqrs/{{pqrsId}}/responses"
+      }
+    },
+    {
+      "name": "juan responde (público)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"message\":\"Adjunto el pantallazo del error, por favor revisar.\"}" },
+        "url": "{{baseUrl}}/pqrs/{{pqrsId}}/responses"
+      }
+    },
+    {
+      "name": "admin responde (público)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"message\":\"Hemos recibido tu caso, lo estamos revisando.\"}" },
+        "url": "{{baseUrl}}/pqrs/{{pqrsId}}/responses"
+      }
+    },
+    {
+      "name": "admin nota interna",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"message\":\"Revisar logs del servidor. Posible bug en facturación.\",\"is_internal\":1}" },
+        "url": "{{baseUrl}}/pqrs/{{pqrsId}}/responses"
+      }
+    },
+    {
+      "name": "juan intenta nota interna (403)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"message\":\"Mi nota interna\",\"is_internal\":1}" },
+        "url": "{{baseUrl}}/pqrs/{{pqrsId}}/responses"
+      }
     }
+  ]
+}
   ]
 }

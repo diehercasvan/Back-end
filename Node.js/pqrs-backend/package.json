@@ -8,7 +8,8 @@
   "start": "node src/server.js",
   "db:migrate": "C:\\xampp\\mysql\\bin\\mysql.exe -u root pqrs_system < db\\pqrs_system_2.sql",
   "add:is-internal": "node scripts/add-is-internal.js",
-  "fix:seed": "node scripts/fix-seed.js"
+  "fix:seed": "node scripts/fix-seed.js",
+  "seed:manager": "node scripts/seed-manager-role.js"
   },
   "keywords": [
     "pqrs",
