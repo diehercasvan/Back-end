@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-11-2026 a las 07:08:25
+-- Tiempo de generación: 19-11-2026 a las 00:17:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `pqrs_system`
 --
+CREATE DATABASE IF NOT EXISTS `pqrs_system` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `pqrs_system`;
 
 -- --------------------------------------------------------
 
@@ -27,14 +29,22 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `document_type`
 --
 
-CREATE TABLE `document_type` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `document_type`;
+CREATE TABLE IF NOT EXISTS `document_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `document_type`
+--
+
+TRUNCATE TABLE `document_type`;
 --
 -- Volcado de datos para la tabla `document_type`
 --
@@ -50,17 +60,26 @@ INSERT INTO `document_type` (`id`, `name`, `description`, `created_at`, `updated
 -- Estructura de tabla para la tabla `module`
 --
 
-CREATE TABLE `module` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `module`;
+CREATE TABLE IF NOT EXISTS `module` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `route` varchar(100) NOT NULL,
   `icon` varchar(50) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `route` (`route`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `module`
+--
+
+TRUNCATE TABLE `module`;
 --
 -- Volcado de datos para la tabla `module`
 --
@@ -75,60 +94,25 @@ INSERT INTO `module` (`id`, `name`, `route`, `icon`, `description`, `is_active`,
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `module_role_user`
---
-
-CREATE TABLE `module_role_user` (
-  `id` int(11) NOT NULL,
-  `module_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `module_role_user`
---
-
-INSERT INTO `module_role_user` (`id`, `module_id`, `role_id`, `user_id`, `permission_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(2, 1, 1, 1, 5, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(3, 2, 1, 1, 1, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(4, 2, 1, 1, 2, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(5, 2, 1, 1, 3, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(6, 2, 1, 1, 4, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(7, 2, 1, 1, 6, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(8, 3, 1, 1, 1, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(9, 3, 1, 1, 2, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(10, 3, 1, 1, 3, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(11, 3, 1, 1, 4, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(12, 4, 1, 1, 1, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(13, 4, 1, 1, 2, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(14, 4, 1, 1, 3, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(15, 4, 1, 1, 4, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(16, 5, 1, 1, 1, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(17, 5, 1, 1, 2, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(18, 5, 1, 1, 3, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(19, 5, 1, 1, 4, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(20, 5, 1, 1, 5, '2026-10-19 16:44:53', '2026-10-19 16:44:53'),
-(21, 5, 1, 1, 6, '2026-10-19 16:44:53', '2026-10-19 16:44:53');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `permission`
 --
 
-CREATE TABLE `permission` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE IF NOT EXISTS `permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `permission`
+--
+
+TRUNCATE TABLE `permission`;
 --
 -- Volcado de datos para la tabla `permission`
 --
@@ -147,8 +131,9 @@ INSERT INTO `permission` (`id`, `name`, `description`, `created_at`, `updated_at
 -- Estructura de tabla para la tabla `pqrs`
 --
 
-CREATE TABLE `pqrs` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pqrs`;
+CREATE TABLE IF NOT EXISTS `pqrs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `tracking_number` varchar(30) NOT NULL,
   `user_id` int(11) NOT NULL,
   `pqrs_type_id` int(11) NOT NULL,
@@ -157,38 +142,67 @@ CREATE TABLE `pqrs` (
   `subject` varchar(150) NOT NULL,
   `description` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `radicado` (`tracking_number`),
+  KEY `pqrs_ibfk_1` (`user_id`),
+  KEY `pqrs_ibfk_2` (`pqrs_type_id`),
+  KEY `pqrs_ibfk_3` (`pqrs_status_id`),
+  KEY `pqrs_ibfk_4` (`assigned_to`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `pqrs`
+--
+
+TRUNCATE TABLE `pqrs`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `pqrs_response`
 --
 
-CREATE TABLE `pqrs_response` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pqrs_response`;
+CREATE TABLE IF NOT EXISTS `pqrs_response` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `pqrs_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `message` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `is_internal` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0 = respuesta visible al ciudadano, 1 = nota interna',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `pqrs_response_ibfk_1` (`pqrs_id`),
+  KEY `pqrs_response_ibfk_2` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `pqrs_response`
+--
+
+TRUNCATE TABLE `pqrs_response`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `pqrs_status`
 --
 
-CREATE TABLE `pqrs_status` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pqrs_status`;
+CREATE TABLE IF NOT EXISTS `pqrs_status` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `color` varchar(20) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `pqrs_status`
+--
+
+TRUNCATE TABLE `pqrs_status`;
 --
 -- Volcado de datos para la tabla `pqrs_status`
 --
@@ -206,14 +220,22 @@ INSERT INTO `pqrs_status` (`id`, `name`, `description`, `color`, `created_at`, `
 -- Estructura de tabla para la tabla `pqrs_type`
 --
 
-CREATE TABLE `pqrs_type` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pqrs_type`;
+CREATE TABLE IF NOT EXISTS `pqrs_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `pqrs_type`
+--
+
+TRUNCATE TABLE `pqrs_type`;
 --
 -- Volcado de datos para la tabla `pqrs_type`
 --
@@ -230,8 +252,9 @@ INSERT INTO `pqrs_type` (`id`, `name`, `description`, `created_at`, `updated_at`
 -- Estructura de tabla para la tabla `profile`
 --
 
-CREATE TABLE `profile` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `profile`;
+CREATE TABLE IF NOT EXISTS `profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
@@ -242,9 +265,18 @@ CREATE TABLE `profile` (
   `photo_url` varchar(255) DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  UNIQUE KEY `document_number` (`document_number`),
+  KEY `document_type_id` (`document_type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `profile`
+--
+
+TRUNCATE TABLE `profile`;
 --
 -- Volcado de datos para la tabla `profile`
 --
@@ -258,15 +290,23 @@ INSERT INTO `profile` (`id`, `user_id`, `first_name`, `last_name`, `address`, `p
 -- Estructura de tabla para la tabla `role`
 --
 
-CREATE TABLE `role` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE IF NOT EXISTS `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `role`
+--
+
+TRUNCATE TABLE `role`;
 --
 -- Volcado de datos para la tabla `role`
 --
@@ -275,7 +315,65 @@ INSERT INTO `role` (`id`, `name`, `description`, `is_active`, `created_at`, `upd
 (1, 'admin', 'Administrador del Sistema', 1, '2026-10-19 16:44:52', '2026-10-19 16:44:52'),
 (2, 'user', 'Usuario Regular', 1, '2026-10-19 16:44:52', '2026-10-19 16:44:52'),
 (3, 'manager', 'Gerente de Departamento', 1, '2026-10-19 16:44:52', '2026-10-19 16:44:52'),
-(5, 'auditor', 'Rol de auditoría del 2026', 0, '2026-10-30 05:25:03', '2026-10-30 05:30:09');
+(5, 'auditor', 'Rol de auditoría del 2026', 0, '2026-10-30 05:25:03', '2026-10-30 05:30:09'),
+(6, 'tester', 'Rol de prueba (editado)', 1, '2026-11-13 09:05:55', '2026-11-13 09:06:12'),
+(7, 'empleado', 'Rol de prueba', 1, '2026-11-14 00:13:41', '2026-11-14 00:13:41');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `role_module_permission`
+--
+
+DROP TABLE IF EXISTS `role_module_permission`;
+CREATE TABLE IF NOT EXISTS `role_module_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL,
+  `module_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_rmp` (`role_id`,`module_id`,`permission_id`),
+  KEY `idx_rmp_role` (`role_id`),
+  KEY `idx_rmp_module` (`module_id`),
+  KEY `idx_rmp_permission` (`permission_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Truncar tablas antes de insertar `role_module_permission`
+--
+
+TRUNCATE TABLE `role_module_permission`;
+--
+-- Volcado de datos para la tabla `role_module_permission`
+--
+
+INSERT INTO `role_module_permission` (`id`, `role_id`, `module_id`, `permission_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(2, 1, 1, 5, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(3, 1, 2, 1, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(4, 1, 2, 2, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(5, 1, 2, 3, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(6, 1, 2, 4, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(7, 1, 2, 6, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(8, 1, 3, 1, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(9, 1, 3, 2, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(10, 1, 3, 3, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(11, 1, 3, 4, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(12, 1, 4, 1, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(13, 1, 4, 2, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(14, 1, 4, 3, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(15, 1, 4, 4, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(16, 1, 5, 1, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(17, 1, 5, 2, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(18, 1, 5, 3, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(19, 1, 5, 4, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(20, 1, 5, 5, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(21, 1, 5, 6, '2026-11-12 20:33:53', '2026-11-12 20:33:53'),
+(32, 2, 5, 2, '2026-11-12 20:35:02', '2026-11-12 20:35:02'),
+(33, 2, 1, 1, '2026-11-12 20:35:02', '2026-11-12 20:35:02'),
+(34, 2, 5, 1, '2026-11-12 20:35:02', '2026-11-12 20:35:02');
 
 -- --------------------------------------------------------
 
@@ -283,24 +381,34 @@ INSERT INTO `role` (`id`, `name`, `description`, `is_active`, `created_at`, `upd
 -- Estructura de tabla para la tabla `user`
 --
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `password_hash` varchar(255) NOT NULL,
   `status_id` int(11) NOT NULL,
   `last_login` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
+  KEY `status_id` (`status_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `user`
+--
+
+TRUNCATE TABLE `user`;
 --
 -- Volcado de datos para la tabla `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `status_id`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@pqrs.com', '$2y$10$S2Xlvai0Ut8WzsglJZBqceDCtLw6B7QlTJcDR6qSJk6qA2l/7jb7C', 1, '2026-11-07 05:44:58', '2026-10-19 16:44:52', '2026-11-07 05:44:58'),
-(2, 'juan', 'juan@pqrs.com', '$2y$10$e.wXq.f2Q.3Pz2Q.3Pz2Qe.wXq.f2Q.3Pz2Q.3Pz2Q.3Pz2Q$2y$10$S2Xlvai0Ut8WzsglJZBqceDCtLw6B7QlTJcDR6qSJk6qA2l/7jb7C', 1, NULL, '2026-10-29 04:52:15', '2026-11-04 16:43:13');
+(1, 'admin', 'admin@pqrs.com', '$2a$10$6r4ywdWv8fN8.uef1Tktc.kJXO8ZGeQfzcdCamnLbaUf4W9FcGbNe', 1, '2026-11-18 21:29:45', '2026-10-19 16:44:52', '2026-11-18 21:29:45'),
+(2, 'juan', 'juan@pqrs.com', '$2a$10$6r4ywdWv8fN8.uef1Tktc.kJXO8ZGeQfzcdCamnLbaUf4W9FcGbNe', 1, '2026-11-18 15:56:48', '2026-10-29 04:52:15', '2026-11-18 15:56:48');
 
 -- --------------------------------------------------------
 
@@ -308,15 +416,25 @@ INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `status_id`, `la
 -- Estructura de tabla para la tabla `user_role`
 --
 
-CREATE TABLE `user_role` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE IF NOT EXISTS `user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   `status_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_user_role` (`user_id`,`role_id`),
+  KEY `status_id` (`status_id`),
+  KEY `role_id` (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `user_role`
+--
+
+TRUNCATE TABLE `user_role`;
 --
 -- Volcado de datos para la tabla `user_role`
 --
@@ -331,14 +449,22 @@ INSERT INTO `user_role` (`id`, `user_id`, `role_id`, `status_id`, `created_at`, 
 -- Estructura de tabla para la tabla `user_status`
 --
 
-CREATE TABLE `user_status` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `user_status`;
+CREATE TABLE IF NOT EXISTS `user_status` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Truncar tablas antes de insertar `user_status`
+--
+
+TRUNCATE TABLE `user_status`;
 --
 -- Volcado de datos para la tabla `user_status`
 --
@@ -349,210 +475,8 @@ INSERT INTO `user_status` (`id`, `name`, `description`, `created_at`, `updated_a
 (3, 'suspended', 'Usuario suspendido', '2026-10-19 16:44:52', '2026-10-19 16:44:52');
 
 --
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `document_type`
---
-ALTER TABLE `document_type`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indices de la tabla `module`
---
-ALTER TABLE `module`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`),
-  ADD UNIQUE KEY `route` (`route`);
-
---
--- Indices de la tabla `module_role_user`
---
-ALTER TABLE `module_role_user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_permission_assignment` (`module_id`,`role_id`,`user_id`,`permission_id`),
-  ADD KEY `module_id` (`module_id`),
-  ADD KEY `role_id` (`role_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `permission_id` (`permission_id`);
-
---
--- Indices de la tabla `permission`
---
-ALTER TABLE `permission`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indices de la tabla `pqrs`
---
-ALTER TABLE `pqrs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `radicado` (`tracking_number`),
-  ADD KEY `pqrs_ibfk_1` (`user_id`),
-  ADD KEY `pqrs_ibfk_2` (`pqrs_type_id`),
-  ADD KEY `pqrs_ibfk_3` (`pqrs_status_id`),
-  ADD KEY `pqrs_ibfk_4` (`assigned_to`);
-
---
--- Indices de la tabla `pqrs_response`
---
-ALTER TABLE `pqrs_response`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `pqrs_response_ibfk_1` (`pqrs_id`),
-  ADD KEY `pqrs_response_ibfk_2` (`user_id`);
-
---
--- Indices de la tabla `pqrs_status`
---
-ALTER TABLE `pqrs_status`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indices de la tabla `pqrs_type`
---
-ALTER TABLE `pqrs_type`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indices de la tabla `profile`
---
-ALTER TABLE `profile`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id` (`user_id`),
-  ADD UNIQUE KEY `document_number` (`document_number`),
-  ADD KEY `document_type_id` (`document_type_id`);
-
---
--- Indices de la tabla `role`
---
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indices de la tabla `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `status_id` (`status_id`);
-
---
--- Indices de la tabla `user_role`
---
-ALTER TABLE `user_role`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uk_user_role` (`user_id`,`role_id`),
-  ADD KEY `status_id` (`status_id`),
-  ADD KEY `role_id` (`role_id`);
-
---
--- Indices de la tabla `user_status`
---
-ALTER TABLE `user_status`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `document_type`
---
-ALTER TABLE `document_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de la tabla `module`
---
-ALTER TABLE `module`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de la tabla `module_role_user`
---
-ALTER TABLE `module_role_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
--- AUTO_INCREMENT de la tabla `permission`
---
-ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla `pqrs`
---
-ALTER TABLE `pqrs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pqrs_response`
---
-ALTER TABLE `pqrs_response`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pqrs_status`
---
-ALTER TABLE `pqrs_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de la tabla `pqrs_type`
---
-ALTER TABLE `pqrs_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `profile`
---
-ALTER TABLE `profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `role`
---
-ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de la tabla `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `user_role`
---
-ALTER TABLE `user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `user_status`
---
-ALTER TABLE `user_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `module_role_user`
---
-ALTER TABLE `module_role_user`
-  ADD CONSTRAINT `mru_ibfk_1` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `mru_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `mru_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `mru_ibfk_4` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `pqrs`
@@ -576,6 +500,14 @@ ALTER TABLE `pqrs_response`
 ALTER TABLE `profile`
   ADD CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `profile_ibfk_2` FOREIGN KEY (`document_type_id`) REFERENCES `document_type` (`id`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `role_module_permission`
+--
+ALTER TABLE `role_module_permission`
+  ADD CONSTRAINT `fk_rmp_module` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_rmp_perm` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_rmp_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `user`
