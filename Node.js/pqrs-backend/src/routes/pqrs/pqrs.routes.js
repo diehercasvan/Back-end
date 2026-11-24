@@ -7,41 +7,50 @@ const {
   createPqrsSchema, changeStatusSchema, assignPqrsSchema, listQuerySchema,
 } = require('../../validators/pqrs.validator');
 const { createResponseSchema } = require('../../validators/pqrsResponse.validator');
-const responseCtl = require('../../controllers/pqrs/response.controller');
 const ctl = require('../../controllers/pqrs/pqrs.controller');
+const responseCtl = require('../../controllers/pqrs/response.controller');
+const statsCtl = require('../../controllers/pqrs/pqrsStats.controller');
 
 const router = Router();
 
+/* ============================================================
+ * IMPORTANTE: las rutas específicas van ANTES de las paramétricas (/:id).
+ * Si /:id está antes de /stats, "stats" cae en id y Number("stats")=NaN.
+ * ============================================================ */
 
-// Listar (con filtros)
+/* Stats (antes de /:id) */
+router.get('/stats',
+  authRequired, permissionRequired('PQRS', 'view'), statsCtl.stats);
+
+/* Listar */
 router.get('/',
   authRequired, permissionRequired('PQRS', 'view'),
   validate(listQuerySchema, 'query'), ctl.list);
 
-// Detalle
-router.get('/:id',
-  authRequired, permissionRequired('PQRS', 'view'), ctl.getOne);
-
-// Crear
+/* Crear */
 router.post('/',
   authRequired, permissionRequired('PQRS', 'create'),
   validate(createPqrsSchema), ctl.create);
 
-// Cambiar estado
+/* Detalle (paramétrica) */
+router.get('/:id',
+  authRequired, permissionRequired('PQRS', 'view'), ctl.getOne);
+
+/* Cambiar estado */
 router.patch('/:id/status',
   authRequired, permissionRequired('PQRS', 'edit'),
   validate(changeStatusSchema), ctl.changeStatus);
 
-// Asignar
+/* Asignar */
 router.patch('/:id/assign',
   authRequired, permissionRequired('PQRS', 'edit'),
   validate(assignPqrsSchema), ctl.assign);
 
-// Eliminar
+/* Eliminar */
 router.delete('/:id',
   authRequired, permissionRequired('PQRS', 'delete'), ctl.remove);
 
-/* ===== Responses (hilo de conversación) ===== */
+/* Responses */
 router.get('/:id/responses',
   authRequired, permissionRequired('PQRS', 'view'), responseCtl.list);
 

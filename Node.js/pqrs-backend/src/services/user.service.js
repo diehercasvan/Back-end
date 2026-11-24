@@ -31,14 +31,16 @@ function formatUser(user) {
     last_login: json.last_login,
     created_at: json.created_at,
     updated_at: json.updated_at,
-    status: json.status,
+    status: json.status?.name || null,          // string
+    status_id: json.status_id,                  // ← también el id
     profile: json.profile || null,
     roles: (json.user_roles || []).map((ur) => ({
       user_role_id: ur.id,
       role_id: ur.role_id,
       name: ur.role?.name || null,
       description: ur.role?.description || null,
-      status: ur.status?.name || null,
+      status: ur.status?.name || null,          // string
+      status_id: ur.status_id,
       is_active: ur.status_id === 1,
     })),
   };

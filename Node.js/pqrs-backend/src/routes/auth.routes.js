@@ -4,6 +4,7 @@ const { authRequired } = require('../middlewares/auth.middleware');
 const { validate } = require('../middlewares/validate.middleware');
 const { loginSchema, selectRoleSchema } = require('../validators/auth.validator');
 const authController = require('../controllers/auth');
+const { myPermissions } = require('../controllers/auth/permissions.controller');
 
 const router = Router();
 
@@ -92,4 +93,5 @@ router.get('/roles', authRequired, authController.listRoles);
 router.get('/health', (req, res) => {
   res.json({ success: true, message: 'Auth router operativo' });
 });
+router.get('/permissions', authRequired, myPermissions);
 module.exports = router;

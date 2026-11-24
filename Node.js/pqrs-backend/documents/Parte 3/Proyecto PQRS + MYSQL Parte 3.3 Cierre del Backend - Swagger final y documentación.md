@@ -394,8 +394,6 @@ La seguridad se basa en **Roles**. Un usuario hereda los permisos del rol activo
 
 ## 🚦 Cierre Oficial del Backend
 
-Con esto concluimos la Fase Backend. Ya tienes:
-
 - 3 sub-pasos de PQRS completados y probados en Postman.
 - Un manager (`carlos`) para probar flujos cruzados (él verá todos los PQRS y podrá responder).
 - Swagger profesional con todas las rutas documentadas.
